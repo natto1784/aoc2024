@@ -1,6 +1,17 @@
-[haskell-flake](https://github.com/srid/haskell-flake)
+# Advent of Code 2024
 
-Copied from: https://github.com/srid/haskell-flake/tree/0.4.0/example
+My dumb AoC solutions, again in haskell this year
 
-[Documentation](https://zero-to-flakes.com/haskell-flake/)
+## Cabal
+```
+cabal build
+```
+```
+cabal run
+```
 
+## Nix
+
+```
+nix build
+```
