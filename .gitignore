@@ -1,0 +1,4 @@
+dist*
+inputs/*.in
+result
+*~

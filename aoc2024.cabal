@@ -1,0 +1,26 @@
+cabal-version: 3.0
+name:          aoc2024
+version:       0.1.0.0
+license:       BSD-3-Clause
+author:        Amneesh
+maintainer:    natto@weirdnatto.in
+build-type:    Simple
+
+common common
+  ghc-options:   -Wall -O3
+  build-depends:
+    , base    >=4.14 && <5
+    , parsec  >=3
+
+library libaoc
+  import:          common
+  exposed:         False
+  hs-source-dirs:  lib
+  build-depends:   containers
+  exposed-modules: AoC
+
+executable p1
+  import:         common
+  hs-source-dirs: src
+  main-is:        P1.hs
+  build-depends:  libaoc
