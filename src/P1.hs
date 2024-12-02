@@ -1,21 +1,23 @@
 module Main where
 
 import qualified AoC as A (count, extract)
+import Control.Monad (void)
 import Data.List (sort)
-import Text.Parsec (digit, many1, newline, parse, space, try)
+import Text.Parsec (digit, eof, many1, newline, parse, sepEndBy1, space, try, (<|>))
 import Text.Parsec.String (Parser)
 
 parseLists :: Parser ([Int], [Int])
 parseLists =
   unzip
     -- multiple lines
-    <$> many1
+    <$> sepEndBy1
       ( (,)
           -- first number
           <$> (read <$> many1 digit)
           -- second number
-          <*> (many1 space *> (read <$> many1 digit) <* try newline)
+          <*> (many1 space *> (read <$> many1 digit))
       )
+      newline
 
 part1 :: [Int] -> [Int] -> Int
 part1 xs ys = sum $ zipWith ((abs .) . (-)) xs ys
