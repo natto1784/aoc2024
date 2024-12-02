@@ -24,3 +24,9 @@ executable p1
   hs-source-dirs: src
   main-is:        P1.hs
   build-depends:  libaoc
+
+executable p2
+  import:         common
+  hs-source-dirs: src
+  main-is:        P2.hs
+  build-depends:  libaoc
