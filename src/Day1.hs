@@ -1,9 +1,8 @@
 module Main where
 
 import qualified AoC as A (count, extract)
-import Control.Monad (void)
 import Data.List (sort)
-import Text.Parsec (digit, eof, many1, newline, parse, sepEndBy1, space, try, (<|>))
+import Text.Parsec (digit, many1, newline, parse, sepEndBy1, space)
 import Text.Parsec.String (Parser)
 
 parseLists :: Parser ([Int], [Int])
@@ -28,7 +27,7 @@ part2 xs ys = sum $ map (\x -> x * A.count x ys) xs
 main :: IO ()
 main =
   do
-    raw <- readFile "./inputs/p1.in"
+    raw <- readFile "./inputs/day1.in"
     -- parse the input
     let (xs', ys') = A.extract $ parse parseLists "" raw
     -- sort the lists
