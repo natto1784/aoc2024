@@ -29,7 +29,7 @@ part2 = length . filter dampSafe
 main :: IO ()
 main =
   do
-    raw <- readFile "./inputs/p2.in"
+    raw <- readFile "./inputs/day2.in"
     -- parse the input
     let reports = A.extract $ parse parseReports "" raw
     putStr "Part 1: " >> print (part1 reports)

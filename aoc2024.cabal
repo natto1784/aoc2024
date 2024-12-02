@@ -19,14 +19,14 @@ library libaoc
   build-depends:   containers
   exposed-modules: AoC
 
-executable p1
+executable day1
   import:         common
   hs-source-dirs: src
-  main-is:        P1.hs
+  main-is:        Day1.hs
   build-depends:  libaoc
 
-executable p2
+executable day2
   import:         common
   hs-source-dirs: src
-  main-is:        P2.hs
+  main-is:        Day2.hs
   build-depends:  libaoc
