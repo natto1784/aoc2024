@@ -7,7 +7,8 @@ maintainer:    natto@weirdnatto.in
 build-type:    Simple
 
 common common
-  ghc-options:   -Wall -O3
+  ghc-options:        -Wall -O3
+  default-extensions: LambdaCase
   build-depends:
     , base    >=4.14 && <5
     , parsec  >=3
@@ -29,4 +30,10 @@ executable day2
   import:         common
   hs-source-dirs: src
   main-is:        Day2.hs
+  build-depends:  libaoc
+
+executable day3
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day3.hs
   build-depends:  libaoc
