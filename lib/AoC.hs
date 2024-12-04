@@ -1,6 +1,6 @@
 module AoC where
 
-import Data.List (transpose)
+import Data.List (tails, transpose)
 import Text.Parsec (ParseError)
 
 -- extract Right value after parsing
@@ -27,3 +27,7 @@ findSubstrings sub str = findSubstrings' sub str 0
     findSubstrings' sub str@(x : xs) idx
       | take (length sub) str == sub = idx : findSubstrings' sub xs (idx + 1)
       | otherwise = findSubstrings' sub xs (idx + 1)
+
+-- get all subarrays of size n
+subArrays :: Int -> [[a]] -> [[[a]]]
+subArrays n xss = [[take n t | t <- tails xs] | xs <- xss]

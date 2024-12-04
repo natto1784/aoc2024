@@ -43,3 +43,9 @@ executable day4
   hs-source-dirs: src
   main-is:        Day4.hs
   build-depends:  libaoc
+
+executable day4alt
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day4Alt.hs
+  build-depends:  libaoc
