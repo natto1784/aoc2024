@@ -37,3 +37,9 @@ executable day3
   hs-source-dirs: src
   main-is:        Day3.hs
   build-depends:  libaoc
+
+executable day4
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day4.hs
+  build-depends:  libaoc
