@@ -8,7 +8,10 @@ build-type:    Simple
 
 common common
   ghc-options:        -Wall -O3
-  default-extensions: LambdaCase
+  default-extensions:
+    LambdaCase
+    ViewPatterns
+
   build-depends:
     , base    >=4.14 && <5
     , parsec  >=3
@@ -17,7 +20,6 @@ library libaoc
   import:          common
   exposed:         False
   hs-source-dirs:  lib
-  build-depends:   containers
   exposed-modules: AoC
 
 executable day1
@@ -49,3 +51,11 @@ executable day4alt
   hs-source-dirs: src
   main-is:        Day4Alt.hs
   build-depends:  libaoc
+
+executable day5
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day5.hs
+  build-depends:
+    , containers
+    , libaoc
