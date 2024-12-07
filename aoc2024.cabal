@@ -64,6 +64,10 @@ executable day6
   import:         common
   hs-source-dirs: src
   main-is:        Day6.hs
-  build-depends:
-    , containers
-    , libaoc
+  build-depends:  containers
+
+executable day7
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day7.hs
+  build-depends:  libaoc
