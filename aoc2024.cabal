@@ -11,6 +11,7 @@ common common
   default-extensions:
     LambdaCase
     ViewPatterns
+    TupleSections
 
   build-depends:
     , base    >=4.14 && <5
@@ -88,4 +89,10 @@ executable day10
   import:         common
   hs-source-dirs: src
   main-is:        Day10.hs
+  build-depends:  containers
+
+executable day11
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day11.hs
   build-depends:  containers
