@@ -43,14 +43,14 @@ corners r = sum . map corners' $ S.toList r
           [nw, ne, _, _] = neighbours n
           [sw, se, _, _] = neighbours s
           [w', e', n', s'] = map (not . (`S.member` r)) d
-          [nw', ne', sw', se'] = map (not . (`S.member` r)) [nw, ne, sw, se]
+          [nw', ne', sw', se'] = map (`S.member` r) [nw, ne, sw, se]
        in length $
             filter
               id
-              [ n' && (e' || not ne'),
-                e' && (s' || not se'),
-                s' && (w' || not sw'),
-                w' && (n' || not nw')
+              [ n' && (e' || ne'),
+                e' && (s' || se'),
+                s' && (w' || sw'),
+                w' && (n' || nw')
               ]
 
 main :: IO ()
