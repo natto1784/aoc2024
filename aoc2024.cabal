@@ -96,3 +96,9 @@ executable day11
   hs-source-dirs: src
   main-is:        Day11.hs
   build-depends:  containers
+
+executable day12
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day12.hs
+  build-depends:  containers
