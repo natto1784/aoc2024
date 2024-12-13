@@ -102,3 +102,9 @@ executable day12
   hs-source-dirs: src
   main-is:        Day12.hs
   build-depends:  containers
+
+executable day13
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day13.hs
+  build-depends:  libaoc
