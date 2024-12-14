@@ -41,28 +41,12 @@ part1 robots = length q1 * length q2 * length q3 * length q4
     q3 = [r | r@(x, y) <- moved, x < width `div` 2, y > height `div` 2]
     q4 = [r | r@(x, y) <- moved, x > width `div` 2, y > height `div` 2]
 
--- number of connected components
-regions :: S.Set Vec -> Int
-regions s
-  | Just c <- S.lookupMin s =
-      let r = go c S.empty
-       in 1 + regions (S.difference s r)
-  | otherwise = 0
-  where
-    -- depth first search
-    go :: Vec -> S.Set Vec -> S.Set Vec
-    go c@(x, y) r
-      | c `S.member` r = r
-      | otherwise =
-          let r' = S.insert c r
-              nexts = [n | n <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], n `S.member` s]
-           in foldr go r' nexts
-
 part2 :: [Robot] -> Int -> IO ()
 part2 robots n = do
   let moved = map (`moveN` n) robots
       s = S.fromList moved
-      cc = regions s
+      d = map (\(x, y) -> sqrt (fromIntegral x ^ 2 + fromIntegral y ^ 2)) moved
+      deviation = sd d $ mean d
       rows =
         [ [ if (x, y) `S.member` s then '#' else '.'
             | x <- [0 .. width - 1]
@@ -70,10 +54,15 @@ part2 robots n = do
           | y <- [0 .. height - 1]
         ]
 
-  when (cc < 250) $ do
-    putStrLn $ "After " ++ show n ++ " seconds, " ++ show cc ++ " CCs:"
-    mapM_ putStrLn rows
+  when (deviation < 20) $ do
     putStr "Part 2: " >> print n
+    putStrLn $ "After " ++ show n ++ " seconds:"
+    mapM_ putStrLn rows
+  where
+    mean :: [Float] -> Float
+    mean = (/) <$> sum <*> fromIntegral . length
+    sd :: [Float] -> Float -> Float
+    sd xs m = sqrt $ sum [(x - m) ^ 2 | x <- xs] / fromIntegral (length xs)
 
 main :: IO ()
 main =
@@ -83,4 +72,4 @@ main =
     let robots = A.extract $ parse parseRobots "" raw
 
     putStr "Part 1: " >> print (part1 robots)
-    mapM_ (part2 robots) [0..10000]
+    mapM_ (part2 robots) [0 .. 10000]
