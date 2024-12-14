@@ -10,8 +10,8 @@ common common
   ghc-options:        -Wall -O3
   default-extensions:
     LambdaCase
-    ViewPatterns
     TupleSections
+    ViewPatterns
 
   build-depends:
     , base    >=4.14 && <5
@@ -108,3 +108,11 @@ executable day13
   hs-source-dirs: src
   main-is:        Day13.hs
   build-depends:  libaoc
+
+executable day14
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day14.hs
+  build-depends:
+    , containers
+    , libaoc

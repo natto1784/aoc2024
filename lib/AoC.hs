@@ -1,12 +1,22 @@
 module AoC where
 
 import Data.List (tails, transpose)
-import Text.Parsec (ParseError)
+import Text.Parsec (ParseError, char, digit, many1, optionMaybe, (<|>))
+import Text.Parsec.String (Parser)
 
 -- extract Right value after parsing
 extract :: Either ParseError a -> a
 extract (Left err) = error ("Parsing failed: " ++ show err)
 extract (Right val) = val
+
+-- parse integer using parsec
+parseSigned :: Parser Int
+parseSigned = do
+  sign <- optionMaybe (char '-' <|> char '+')
+  num <- read <$> many1 digit
+  return $ case sign of
+    Just '-' -> negate num
+    _ -> num
 
 -- count elements in a list
 count :: (Eq a) => a -> [a] -> Int
