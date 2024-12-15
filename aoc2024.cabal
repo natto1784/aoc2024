@@ -116,3 +116,9 @@ executable day14
   build-depends:
     , containers
     , libaoc
+
+executable day15
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day15.hs
+  build-depends:  containers
