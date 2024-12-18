@@ -1,7 +1,7 @@
 module Main where
 
 import qualified AoC as A
-import Data.Maybe (fromJust, isJust)
+import Data.Maybe (fromJust)
 import qualified Data.Set as S
 import Text.Parsec (char, digit, many1, newline, parse, sepEndBy1)
 import Text.Parsec.String (Parser)
@@ -28,8 +28,8 @@ oob (x, y) = x < 0 || x >= width || y < 0 || y >= height
 neighbours :: Coord -> [Coord]
 neighbours (x, y) = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
-dijkstra :: Coord -> S.Set Coord -> Maybe Int
-dijkstra c obs = travel (S.singleton (0, c)) S.empty
+dijkstra :: [Coord] -> Maybe Int
+dijkstra (S.fromList -> obs) = travel (S.singleton (0, (0, 0))) S.empty
   where
     travel :: Queue -> S.Set Coord -> Maybe Int
     travel q vis = do
@@ -47,18 +47,19 @@ dijkstra c obs = travel (S.singleton (0, c)) S.empty
         invalid c = c `S.member` vis || c `S.member` obs || oob c
 
 part1 :: [Coord] -> Int
-part1 obs = fromJust $ dijkstra (0, 0) (S.fromList . take 1024 $ obs)
+part1 obs = fromJust $ dijkstra (take 1024 $ obs)
 
 part2 :: [Coord] -> Coord
-part2 obs =
-  (!!) obs $
-    head
-      [ i
-        | i <- [n, n - 1 .. 1],
-          isJust $ dijkstra (0, 0) (S.fromList $ take i obs)
-      ]
+part2 obs = search 1025 (length obs - 1)
   where
-    n = length obs
+    search :: Int -> Int -> Coord
+    search a b
+      | a >= b = obs !! b
+      | otherwise =
+          let m = (a + b) `div` 2
+           in case dijkstra (take m obs) of
+                Just _ -> search m b
+                Nothing -> search a (m - 1)
 
 main :: IO ()
 main =
