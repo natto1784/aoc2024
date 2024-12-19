@@ -10,9 +10,9 @@ common common
   ghc-options:        -Wall -O3
   default-extensions:
     LambdaCase
+    MultiWayIf
     TupleSections
     ViewPatterns
-    MultiWayIf
 
   build-depends:
     , base    >=4.14 && <5
@@ -140,4 +140,15 @@ executable day18
   import:         common
   hs-source-dirs: src
   main-is:        Day18.hs
-  build-depends:  libaoc, containers
+  build-depends:
+    , containers
+    , libaoc
+
+executable day19
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day19.hs
+  build-depends:
+    , array
+    , containers
+    , libaoc
