@@ -24,66 +24,66 @@ library libaoc
   hs-source-dirs:  lib
   exposed-modules: AoC
 
-executable day1
+executable day01
   import:         common
   hs-source-dirs: src
-  main-is:        Day1.hs
+  main-is:        Day01.hs
   build-depends:  libaoc
 
-executable day2
+executable day02
   import:         common
   hs-source-dirs: src
-  main-is:        Day2.hs
+  main-is:        Day02.hs
   build-depends:  libaoc
 
-executable day3
+executable day03
   import:         common
   hs-source-dirs: src
-  main-is:        Day3.hs
+  main-is:        Day03.hs
   build-depends:  libaoc
 
-executable day4
+executable day04
   import:         common
   hs-source-dirs: src
-  main-is:        Day4.hs
+  main-is:        Day04.hs
   build-depends:  libaoc
 
-executable day4alt
+executable day04alt
   import:         common
   hs-source-dirs: src
-  main-is:        Day4Alt.hs
+  main-is:        Day04Alt.hs
   build-depends:  libaoc
 
-executable day5
+executable day05
   import:         common
   hs-source-dirs: src
-  main-is:        Day5.hs
+  main-is:        Day05.hs
   build-depends:
     , containers
     , libaoc
 
-executable day6
+executable day06
   import:         common
   hs-source-dirs: src
-  main-is:        Day6.hs
+  main-is:        Day06.hs
   build-depends:  containers
 
-executable day7
+executable day07
   import:         common
   hs-source-dirs: src
-  main-is:        Day7.hs
+  main-is:        Day07.hs
   build-depends:  libaoc
 
-executable day8
+executable day08
   import:         common
   hs-source-dirs: src
-  main-is:        Day8.hs
+  main-is:        Day08.hs
   build-depends:  containers
 
-executable day9
+executable day09
   import:         common
   hs-source-dirs: src
-  main-is:        Day9.hs
+  main-is:        Day09.hs
   build-depends:  containers
 
 executable day10
