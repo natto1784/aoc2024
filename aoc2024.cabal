@@ -152,3 +152,9 @@ executable day19
     , array
     , containers
     , libaoc
+
+executable day20
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day20.hs
+  build-depends:  containers
