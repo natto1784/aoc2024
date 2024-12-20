@@ -40,7 +40,7 @@ nCheats path n =
             j <- [i + 100 .. l - 1],
             let d = manhattan (path IM.! i) (path IM.! j),
             d <= n,
-            100 <= j - i - d + 1
+            100 <= j - i - d
         ]
 
 main :: IO ()
