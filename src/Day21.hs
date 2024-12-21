@@ -1,16 +1,13 @@
 module Main where
 
-import Data.List (foldl', minimumBy, nub)
+import Data.List (foldl', nub)
 import qualified Data.Map as M
-import Data.Ord (comparing)
-
--- TODO: ugloid and slow solution, please clean
 
 type Vec = (Int, Int)
 
 type Table = M.Map (Char, Char) [String]
 
-type Memo = M.Map (Char, Char, Int) Int
+type Memo = M.Map (Int, Char, Char) Int
 
 coord :: Char -> Vec
 -- keypad
@@ -52,15 +49,16 @@ seqc table n = fst . seqc' M.empty (n + 1) 'A'
     seqc' memo n start s = foldl' loop (0, memo) $ zip (start : s) s
       where
         loop :: (Int, Memo) -> (Char, Char) -> (Int, Memo)
-        loop (total, memo) (a, b) = case (a, b, n) `M.lookup` memo of
+        loop (total, memo) (a, b) = case (n, a, b) `M.lookup` memo of
           Just x -> (total + x, memo)
           Nothing ->
-            let paths = table M.! (a, b)
-                (x, memo') =
-                  minimumBy
-                    (comparing fst)
-                    (map (seqc' memo (n - 1) 'a') paths)
-             in (total + x, M.insert (a, b, n) x memo')
+            let (x, memo') = case table M.! (a, b) of
+                  [p] -> seqc' memo (n - 1) 'a' p
+                  [p1, p2] ->
+                    let (x1, m1) = seqc' memo (n - 1) 'a' p1
+                        (x2, m2) = seqc' m1 (n - 1) 'a' p2
+                     in if x1 < x2 then (x1, m2) else (x2, m2)
+             in (total + x, M.insert (n, a, b) x memo')
 
 complexity :: Table -> Int -> String -> Int
 complexity table n s = a * b
