@@ -27,6 +27,15 @@
         };
 
         packages.default = self'.packages.aoc2024;
+        apps =
+          let
+            name = n: "day${(if n < 10 then "0" else "" ) + toString n}";
+          in
+          with pkgs.lib; genAttrs (map name (range 1 21))
+            (n: {
+              type = "app";
+              program = "${self'.packages.aoc2024}/bin/${n}";
+            });
       };
     };
 }
