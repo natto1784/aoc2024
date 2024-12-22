@@ -164,3 +164,9 @@ executable day21
   hs-source-dirs: src
   main-is:        Day21.hs
   build-depends:  containers
+
+executable day22
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day22.hs
+  build-depends:  containers
