@@ -176,3 +176,11 @@ executable day23
   hs-source-dirs: src
   main-is:        Day23.hs
   build-depends:  containers
+
+executable day24
+  import:         common
+  hs-source-dirs: src
+  main-is:        Day24.hs
+  build-depends:
+    , containers
+    , libaoc
