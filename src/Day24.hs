@@ -5,12 +5,12 @@ import Control.Arrow (Arrow (second))
 import Data.Bits (shiftL, xor, (.|.))
 import Data.Char (digitToInt)
 import Data.Either (rights)
-import Data.List (foldl', mapAccumL)
+import Data.List (foldl', mapAccumL, sort)
 import qualified Data.Map as M
 import Text.Parsec (char, digit, letter, many1, newline, parse, sepEndBy1, string, try, (<|>))
 import Text.Parsec.String (Parser)
 
-type Gate = Bool -> Bool -> Bool
+data Gate = And | Or | Xor deriving (Eq, Enum)
 
 type Connection = (String, Gate, String)
 
@@ -27,9 +27,9 @@ parseConnection = do
   a <- many1 (letter <|> digit)
   char ' '
   op <-
-    (try (string "AND") >> return (&&))
-      <|> (try (string "OR") >> return (||))
-      <|> (try (string "XOR") >> return xor)
+    (try (string "AND") >> return And)
+      <|> (try (string "OR") >> return Or)
+      <|> (try (string "XOR") >> return Xor)
   char ' '
   b <- many1 (letter <|> digit)
   string " -> "
@@ -51,7 +51,8 @@ simulate s line = case s M.! line of
   Left (lineA, op, lineB) ->
     let (s', a) = simulate s lineA
         (s'', b) = simulate s' lineB
-        value = a `op` b
+        operator = [(&&), (||), xor] !! fromEnum op
+        value = a `operator` b
      in (M.insert line (Right value) s'', value)
 
 simulateAll :: States -> States
@@ -66,6 +67,50 @@ binToDec = foldl' (\num b -> num `shiftL` 1 .|. fromEnum b) 0
 part1 :: States -> Int
 part1 = binToDec . wires 'z' . simulateAll
 
+fullAdder :: States -> String -> Maybe [String]
+fullAdder states num =
+  let z = 'z' : num
+      x = 'x' : num
+      y = 'y' : num
+      Left (a, fn1, b) = states M.! z
+      Left (_, fn2, _) = states M.! a
+      Left (_, fn3, _) = states M.! b
+      xor1 = rLookup (x, Xor, y)
+      xor2 = rLookupP (xor1, Xor)
+   in case fn1 of
+        Xor -> case (fn2, fn3) of
+          (And, Or) -> Just [a, xor1]
+          (Or, And) -> Just [b, xor1]
+          _ -> Nothing
+        _ -> Just [z, xor2]
+  where
+    rLookup :: Connection -> String
+    rLookup (a, op, b) =
+      head
+        [ s
+          | (s, c) <- M.assocs states,
+            c `elem` [Left (a, op, b), Left (b, op, a)]
+        ]
+    rLookupP :: (String, Gate) -> String
+    rLookupP (a, g) =
+      head
+        [ s
+          | (s, c) <- M.assocs states,
+            Left (x, op, y) <- [c],
+            (a, g) `elem` [(x, op), (y, op)]
+        ]
+
+part2 :: States -> [String]
+part2 states =
+  let zLength = length (wires 'x' states) + 1
+   in sort
+        [ line
+          | x <- [1 .. zLength - 2],
+            let num = if x < 10 then '0' : show x else show x,
+            Just lines <- [fullAdder states num],
+            line <- lines
+        ]
+
 main :: IO ()
 main =
   do
@@ -73,5 +118,4 @@ main =
     let states = A.extract $ parse parseInput "" raw
 
     putStr "Part 1: " >> print (part1 states)
-    -- TODO: write code
-    putStrLn "Part 2: Done by hand :')"
+    putStr "Part 2: " >> print (part2 states)
